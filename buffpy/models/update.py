@@ -60,9 +60,10 @@ class Update(ResponseObject):
     if media:
       media_format = "media[%s]=%s&"
 
-      for media_type, media_item in media.iteritems():
+      for media_type, media_item in list(media.items()):
         post_data += media_format % (media_type, media_item)
 
+    print(type(url),type(data))
     response = self.api.post(url=url, data=post_data)
 
     return Update(api=self.api, raw_response=response['update'])

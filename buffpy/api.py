@@ -1,5 +1,5 @@
 import json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from rauth import OAuth2Session, OAuth2Service
 
@@ -47,8 +47,7 @@ class API(object):
     if not response.ok:
       self._handleResponseError(url, response)
 
-
-    return parser(response.content)
+    return parser(response.content.decode('utf-8'))
 
   def post(self, url, parser=None, **params):
     if parser is None:
@@ -110,7 +109,7 @@ class AuthService(object):
     return self.outh_service.get_session(access_token)
 
   def get_access_token(self, auth_code):
-    auth_code = urllib.unquote(auth_code).decode('utf8')
+    auth_code = urllib.parse.unquote(auth_code).decode('utf8')
     data = {'code': auth_code,
             'grant_type': 'authorization_code',
             'redirect_uri': self.redirect_uri}
