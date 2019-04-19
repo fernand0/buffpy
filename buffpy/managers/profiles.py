@@ -35,6 +35,6 @@ class Profiles(list):
     if not len(self):
       self.all()
 
-    new_list = [item for item in self if [True for arg in kwargs if item[arg] == kwargs[arg]] != []]
+    new_list = filter(lambda item: [True for arg in kwargs if item[arg] == kwargs[arg]] != [], self)
 
     return Profiles(self.api, new_list)
